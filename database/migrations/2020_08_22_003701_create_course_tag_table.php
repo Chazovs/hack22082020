@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReactionsTable extends Migration
+class CourseTagTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateReactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reactions', function (Blueprint $table) {
-            $table->id();
-            $table->string('complexity');
-            $table->string('feedback');
-            $table->integer('course_id')->unsigned();
+        Schema::create('company_user', static function (Blueprint $table) {
+            $table->integer('course_id')->unsigned()->index();
+            $table->bigInteger('tag_id')->unsigned()->index();
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateReactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reactions');
+        Schema::dropIfExists('companies_users');
     }
 }
