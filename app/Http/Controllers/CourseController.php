@@ -3,83 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Reaction;
+use App\Services\TagsAi;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * main endpoint
      */
-    public function index()
+    public function index(Request $request)
+    {
+        $course = new Course();
+        $course->courseName = $request->courseName;
+        $course->courseSubname = $request->courseSubname;
+        $course->level = $request->level;
+        $course->link = $request->link;
+        $course->save();
+        TagsAi::getCourseTags($course->id, $course->courseName);
+        TagsAi::getMainTag($course->id, $course->courseSubname);
+        if (!empty($request->reaction)) {
+            $reactionReq = $request->reaction;
+            $reaction = new Reaction();
+            $reaction->complexity = $reactionReq['complexity'];
+            $reaction->feedback = $reactionReq['complexity'];
+            $reaction->companyId = $reactionReq['complexity'];
+            $reaction->save();
+        }
+
+
+        return ['message'=> 'Если вас интересуют модульные тесты, то наверное вы хотели бы пройти курс по <a href="#">PHPUnit </a>. Или вам интереснее курс <a href="#">по функциональным тестам</a>?'];
+    }
+
+    /**
+     *
+     */
+    public function audio2text(Request $request)
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function getCourseTags(){
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Course $course)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Course $course)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Course $course)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Course $course)
-    {
-        //
-    }
 }

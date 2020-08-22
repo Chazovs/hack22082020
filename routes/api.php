@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::post('/hocking-cheek', function (Request $request) {
+/*Route::post('/hocking-cheek', function (Request $request) {
     return ['message'=> 'Если вас интересуют модульные тесты, то наверное вы хотели бы пройти курс по <a href="#">PHPUnit </a>. Или вам интереснее курс <a href="#">по функциональным тестам</a>?'];
-});
+});*/
+
+
+Route::post('/hocking-cheek', 'CourseController@index')->middleware('cors');
+Route::post('/audio-2-text', 'CourseController@audio2text')->middleware('cors');
